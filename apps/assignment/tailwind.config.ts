@@ -1,7 +1,8 @@
 import type { Config } from "tailwindcss";
 import sharedConfig from "@repo/tailwind-config";
+import tailwindScrollbar from "tailwind-scrollbar";
 
-const config: Pick<Config, "content" | "presets" | "theme"> = {
+const config: Pick<Config, "content" | "presets" | "theme" | "plugins"> = {
 	content: ["./src/**/*.tsx"],
 	presets: [sharedConfig],
 	theme: {
@@ -11,6 +12,7 @@ const config: Pick<Config, "content" | "presets" | "theme"> = {
 			},
 		},
 	},
+	plugins: [tailwindScrollbar({ nocompatible: true })],
 };
 
 export default config;
