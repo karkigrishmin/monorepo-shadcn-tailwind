@@ -53,31 +53,48 @@ function App() {
 				</DialogHeader>
 
 				<ul className='flex flex-col gap-5'>
-					{users?.map((eachUser) => {
-						const birthdate = new Date(eachUser.date_of_birth);
+					{userQuery?.isFetching ? (
+						<>
+							{Array.from({ length: 5 }).map((_, index) => (
+								<li
+									key={index}
+									className='flex items-start gap-2 animate-pulse'
+								>
+									<div className='bg-gray-300 w-12 h-12 rounded-full'></div>
+									<div className='flex flex-col'>
+										<h5 className='bg-gray-300 w-24 h-4 mb-2'></h5>
+										<p className='bg-gray-300 w-10 h-4'></p>
+									</div>
+								</li>
+							))}
+						</>
+					) : (
+						users?.map((eachUser) => {
+							const birthdate = new Date(eachUser.date_of_birth);
 
-						const currentDate = new Date();
+							const currentDate = new Date();
 
-						const age = currentDate.getFullYear() - birthdate.getFullYear();
+							const age = currentDate.getFullYear() - birthdate.getFullYear();
 
-						return (
-							<li key={eachUser.id} className='flex items-start gap-2'>
-								{/* <img src={eachUser.avatar} alt={eachUser.first_name} /> */}
+							return (
+								<li key={eachUser.id} className='flex items-start gap-2'>
+									{/* <img src={eachUser.avatar} alt={eachUser.first_name} /> */}
 
-								<Avatar className='border-[1px] w-[3rem] h-[3rem]'>
-									<AvatarImage src={eachUser.avatar} />
-									<AvatarFallback>{eachUser.first_name}</AvatarFallback>
-								</Avatar>
+									<Avatar className='border-[1px] w-[3rem] h-[3rem]'>
+										<AvatarImage src={eachUser.avatar} />
+										<AvatarFallback>{eachUser.first_name}</AvatarFallback>
+									</Avatar>
 
-								<div className='flex flex-col'>
-									<h5>
-										{eachUser.first_name} {eachUser.last_name}
-									</h5>
-									<p className='text-gray-500'>{age} years</p>
-								</div>
-							</li>
-						);
-					})}
+									<div className='flex flex-col'>
+										<h5>
+											{eachUser.first_name} {eachUser.last_name}
+										</h5>
+										<p className='text-gray-500'>{age} years</p>
+									</div>
+								</li>
+							);
+						})
+					)}
 				</ul>
 			</Modal>
 		</>
