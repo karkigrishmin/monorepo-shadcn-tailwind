@@ -17,11 +17,11 @@ This is a monorepo project created using turborepo containing a Vite React app i
 ### 1. Clone the Repo and Navigate to the Project
 
 ```bash
-git clone git@github.com:karkigrishmin/ngit-assignment.git
+git clone git@github.com:karkigrishmin/monorepo-shadcn-tailwind.git
 ```
 
 ```bash
-cd ngit-assignment
+cd monorepo-shadcn-tailwind
 ```
 
 ### 2. Install Packages using pnpm
