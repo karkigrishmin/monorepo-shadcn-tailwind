@@ -1,11 +1,9 @@
-import Button from "@repo/assignment-ui/button";
+import { Modal } from "@repo/assignment-ui/modal";
 
 function App() {
 	return (
 		<>
-			<h1 className='text-center text-red-300'>test</h1>
-
-			<Button />
+			<Modal className='!shadow-modalBoxShadow'></Modal>
 		</>
 	);
 }
