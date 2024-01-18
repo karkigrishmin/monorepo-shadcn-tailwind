@@ -1,55 +1,47 @@
-import { DialogHeader, DialogTitle, Modal } from "@repo/assignment-ui/modal";
+import {
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	Modal,
+} from "@repo/assignment-ui/modal";
 import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
 } from "../../../packages/assignment-ui/src/lib/avatar/avatar";
+import { Button } from "../../../packages/assignment-ui/src/lib/button/button";
 
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { useGetUsers } from "./api/users/get-users";
+import { useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
 	const [usersLimit, setUsersLimit] = useState(5);
-
-	// const fetchUsers = async ({ queryKey }) => {
-	// 	console.log("query key", queryKey);
-	// 	const [_, limit] = queryKey;
-	// 	const response = await fetch(
-	// 		`https://random-data-api.com/api/v2/users?size=${limit}`
-	// 	);
-	// 	if (!response.ok) {
-	// 		throw new Error("Network response was not ok");
-	// 	}
-	// 	return response.json();
-	// };
-
-	// const userQuery = useQuery({
-	// 	queryKey: ["users", usersLimit],
-	// 	queryFn: fetchUsers,
-	// });
-
-	// const users: {
-	// 	avatar: string;
-	// 	date_of_birth: string;
-	// 	first_name: string;
-	// 	last_name: string;
-	// 	id: number;
-	// }[] = userQuery?.data ?? [];
 
 	const userQuery = useGetUsers({
 		params: { size: usersLimit },
 	});
 
+	useEffect(() => {
+		userQuery.refetch();
+	}, [usersLimit]);
+
 	const users = userQuery?.data;
+
 	console.log("user query", userQuery);
 	console.log("users", users);
 
 	return (
 		<>
-			<Modal className='!shadow-modalBoxShadow'>
+			<Modal className='!shadow-modalBoxShadow max-h-[90%] overflow-y-auto gap-8'>
 				<DialogHeader>
-					<DialogTitle>{users?.length} birthdays today</DialogTitle>
+					{userQuery?.isFetching ? (
+						<p className='bg-gray-300 w-[50%] h-10'></p>
+					) : (
+						<DialogTitle className='text-2xl font-normal'>
+							{users?.length} birthdays today
+						</DialogTitle>
+					)}
 				</DialogHeader>
 
 				<ul className='flex flex-col gap-5'>
@@ -96,6 +88,27 @@ function App() {
 						})
 					)}
 				</ul>
+
+				<DialogFooter className='w-full'>
+					{userQuery.isFetching ? (
+						<div className='bg-gray-300 w-full py-6 px-6 rounded-lg shadow-md animate-pulse'></div>
+					) : (
+						<Button
+							onClick={() => {
+								if (usersLimit === 100) {
+									setUsersLimit(5);
+
+									return;
+								}
+								setUsersLimit(100);
+							}}
+							autoFocus={false}
+							className='w-full bg-gradient-to-r from-[#FF6FD8] to-[#FD267A] text-white font-medium text-lg py-6 px-6 rounded-lg shadow-md !focus:outline-none !outline-none !border-0 focus-visible:outline-none focus-visible:ring-0'
+						>
+							View {usersLimit === 100 ? "less" : "all"}
+						</Button>
+					)}
+				</DialogFooter>
 			</Modal>
 		</>
 	);
