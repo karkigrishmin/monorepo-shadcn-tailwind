@@ -22,7 +22,7 @@ function App() {
 
 	return (
 		<>
-			<Modal className='!shadow-modalBoxShadow max-h-[90%] overflow-y-auto gap-8'>
+			<Modal className='!shadow-modalBoxShadow max-h-[90%] gap-8'>
 				<ModalHeader isFetching={isFetching} usersCount={users?.length ?? 0} />
 
 				<UsersList isFetching={isFetching} users={users ?? []} />
